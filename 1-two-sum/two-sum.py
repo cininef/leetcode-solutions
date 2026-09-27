@@ -5,10 +5,14 @@ class Solution(object):
         :type target: int
         :rtype: List[int]
         """
-        #暴力拆解
-        
-        for i,num1 in enumerate(nums):
-            for j in range(i+1,len(nums)):
-                if num1+nums[j] == target:
-                    return [i,j]
+        #hashmap:变成表 因为要返回value index有两个变量
+        dict = {}
+        for i in range(len(nums)):
+            #define the num2 going to find
+            num2 = target - nums[i]
+            if num2 in dict:
+                return [i,dict[num2]]
+            dict[nums[i]] = i
+
+
         
