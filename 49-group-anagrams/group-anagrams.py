@@ -16,7 +16,8 @@ class Solution(object):
             
             #if the entered new word already appear in current table, include in result
             #current word strs[i]; in group "word"
-            if word in dict.keys():
+            #不要乱写dict.keys会退化成list
+            if word in dict:
                 idx = dict[word]
                 result[idx].append(strs[i])
             #if current node not in result, haven't seen
