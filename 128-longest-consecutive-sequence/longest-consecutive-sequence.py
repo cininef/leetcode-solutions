@@ -1,21 +1,18 @@
 class Solution(object):
     def longestConsecutive(self, nums):
-        dict = {}
+        d = {}
         result = 0
-
-        for cur in set(nums):
-            # 1. 算 L：左邻居在就拿左邻居的 L，不在就是 cur 自己
-            L = dict[cur - 1][0] if (cur - 1 in dict) else cur
-            # 2. 算 R：右邻居在就拿右邻居的 R，不在就是 cur 自己
-            R = dict[cur + 1][1] if (cur + 1 in dict) else cur
+        for cur in nums:                 # 直接遍历元素，省掉 range(len(nums))
+            if cur in d:
+                continue
+            left = d.get(cur - 1, 0)     # 左邻居所在区间的长度（不在就是 0）
+            right = d.get(cur + 1, 0)    # 右邻居所在区间的长度（不在就是 0）
             
-            # 3. 把新区间同步给最左端点 L 和最右端点 R
-            new = [L, R]
-            dict[L] = new
-            dict[R] = new
+            length = left + right + 1    # 新区间总长度
+            d[cur] = length              # 自己占位防重
+            d[cur - left] = length       # 更新最左端点 L 的长度
+            d[cur + right] = length      # 更新最右端点 R 的长度
             
-            # 4. 顺手更新最大长度
-            if R - L + 1 > result:
-                result = R - L + 1
-
+            if length > result:          # 顺手更新最大值，省掉最后的 dict.values() 循环
+                result = length
         return result
