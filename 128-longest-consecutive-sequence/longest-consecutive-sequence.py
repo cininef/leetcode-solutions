@@ -48,9 +48,9 @@ class Solution(object):
                 L = dict[cur+1][0]
                 R = dict[cur+1][1]
                 if cur < L:
-                    dict[cur+1][0] = cur
+                    dict[L][0] = cur
                 #else means cur is inside [], no operation but copy
-                dict[cur] = dict[cur+1]
+                dict[cur] = dict[L]
             else:
                 dict[cur] = [cur,cur]
         for list in dict.values():
