@@ -8,36 +8,48 @@ class Solution(object):
         :rtype: List[List[int]]
         """
         #属于找联通块 bfs/dfs traversal完全部 进行inplace modify就行
+        # using bfs+queue
         rl, cl = len(image),len(image[0])
         orig = image[sr][sc]
+    
+        queue = deque()
+        #remember current node
+        queue.append((sr,sc))
+        # paint to self
+        image[sr][sc] = color
 
-        #思考 recursive dfs模版需要传递什么：当前位置+现在的color
-        #需要用helper: image每次recursive重复，color需要重新定义
-        #orig原始判断是否渲染的color
-        #everystep: judge whether this block color == [sr,sc]'s original color
 
-        def dfs(r,c):
-            #1.define ending situations
-                #1) out of bound
-            if (min(r,c)<0 or
-                r == rl or c == cl or
-                #2).already visited -> being colored/not meeting condition of being colored
-                image[r][c] == color or
-                #3).meeting obstacles/skip condition = not meeting condition of being colored
-                image[r][c] != orig):
-                return
-            #define path success/ending condition
-            # in previous, we can verify this already equals to orig color
-            #now we want to end endless recursive in grid we already colored
-            # do noting, as already colored, no extra ending signal
+        #step1: traversal all the elements in queue
+        while queue:
+            for i in range(len(queue)):
+                r,c = queue.popleft()
+                # a.check current is the ending/success or not
+                # equals to c2 c3
+                
+                # b. check the 4 directions
+                neighbors = [[0,1],[0,-1],[1,0],[-1,0]]
+                for dr,dc in neighbors:
+                    # c. consider the stopping condition -> skip this pos
+                        #c1: out of bound [r<-1/c<-1] [r>=rl/c>=cl]
+                    if (min(r+dr,c+dc)<0 or r+dr == rl or c+dc == cl or
+                        #c2: already visit = 
+                        # 1)already poscolor=newcolor 
+                        image[r+dr][c+dc] == color or
+                        # 2) poscolor != orig -> same as c3
+                        #c3: meeting obstacles/can't color
+                        image[r+dr][c+dc] != orig):
 
-            #what to do to this node: change the color
-            image[r][c] = color
-            #return the recursive of 4 direction result
-            dfs(r+1,c)
-            dfs(r-1,c)
-            dfs(r,c+1)
-            dfs(r,c-1)
-        
-        dfs(sr,sc)
+                        continue
+                    # d.none stop, conduct operation on current vertice
+                    image[r+dr][c+dc] = color
+                    # other basic operation to maintain queue
+                    # this r+dr,c+dc pos ,must a legal element in queue
+                    queue.append((r+dr,c+dc))
+
         return image
+
+
+                
+
+
+
