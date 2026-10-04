@@ -10,7 +10,7 @@ class Solution(object):
         #属于找联通块 bfs/dfs traversal完全部 进行inplace modify就行
         rl, cl = len(image),len(image[0])
         orig = image[sr][sc]
-        visit = set()
+
         #思考 recursive dfs模版需要传递什么：当前位置+现在的color
         #需要用helper: image每次recursive重复，color需要重新定义
         #orig原始判断是否渲染的color
@@ -22,17 +22,16 @@ class Solution(object):
             if (min(r,c)<0 or
                 r == rl or c == cl or
                 #2).already visited -> being colored/not meeting condition of being colored
-                (r,c) in visit or 
-                #3).meeting obstacles/skip condition
+                image[r][c] == color or
+                #3).meeting obstacles/skip condition = not meeting condition of being colored
                 image[r][c] != orig):
                 return
             #define path success/ending condition
             # in previous, we can verify this already equals to orig color
             #now we want to end endless recursive in grid we already colored
-            if image[r][c] == color:
-                return
+            # do noting, as already colored, no extra ending signal
+
             #what to do to this node: change the color
-            visit.add((r,c))
             image[r][c] = color
             #return the recursive of 4 direction result
             dfs(r+1,c)
