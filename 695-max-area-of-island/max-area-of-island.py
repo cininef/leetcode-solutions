@@ -5,9 +5,10 @@ class Solution(object):
         :rtype: int
         """
         # 属于connected components
+        # 用 grid[r][c] =0 取代visited set
         # using dfs + recursion
         rl, cl = len(grid), len(grid[0])
-        visit = set()
+        #visit = set() here we change this to 0, to replace visited -> save time and space for hash
         res = 0
         # step1: define dfs(r, c), only carry the changing params r, c
         def dfs(r, c):
@@ -15,7 +16,6 @@ class Solution(object):
                 # c1: out of bound [r<0/c<0] [r==rl/c==cl]
             if (min(r, c) < 0 or r == rl or c == cl or
                 # c2: already visit
-                (r, c) in visit or
                 # c3: meeting obstacles
                 grid[r][c]==0):
 
@@ -26,7 +26,7 @@ class Solution(object):
             # -> 走遍型：(none)
 
             # c. none stop, conduct operation on current vertex, already not 0
-            visit.add((r, c))          # mark visit
+            grid[r][c] = 0          # mark visit
             area = 1                   # 涂色 / 计数 / 改值，没有就不写
 
             # d. check the 4 directions -> recursion
@@ -47,7 +47,7 @@ class Solution(object):
         # -> 没给起点：双重 for，每找到一个新起点就 dfs 一次
         for sr in range(rl):
             for sc in range(cl):
-                if (sr, sc) in visit or grid[sr][sc]==0:
+                if grid[sr][sc]==0:
                     continue
                 cur = dfs(sr, sc)
                 if cur > res:
@@ -55,3 +55,4 @@ class Solution(object):
                  #【一块结束后要做的事】  例如 200：count += 1；695：res = max(res, dfs(sr, sc))
 
         return res
+        
