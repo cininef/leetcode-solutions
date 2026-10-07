@@ -12,8 +12,6 @@ class Solution(object):
         #heapify is inplace, can't assign
         heap_ofmax = nums[0:k]
         heapq.heapify(heap_ofmax)
-        if k == len(nums):
-            return heap_ofmax[0]
         for i in nums[k:]:
             #现在我们想要的是 如果新的i>现在的heap 就要加入
             #跟pushpop/replace默认的 新元素更小相反
