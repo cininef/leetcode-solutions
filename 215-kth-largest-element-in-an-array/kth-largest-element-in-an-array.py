@@ -10,9 +10,11 @@ class Solution(object):
         #place the smallest element on the heap, can replace it from top
         #initialize a heap first, then replace
         #heapify is inplace, can't assign
-        heap_ofmax = nums[0:k]
-        heapq.heapify(heap_ofmax)
-        for i in nums[k:]:
+        heap_ofmax = []
+        for i in nums:
+            if len(heap_ofmax)<k:
+                heapq.heappush(heap_ofmax,i)
+                continue
             #现在我们想要的是 如果新的i>现在的heap 就要加入
             #跟pushpop/replace默认的 新元素更小相反
             if i > heap_ofmax[0]:
