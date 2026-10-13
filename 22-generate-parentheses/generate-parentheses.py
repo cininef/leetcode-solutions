@@ -11,6 +11,7 @@ class Solution:
                     cur = sol+p
                     pdict[p] -= 1
                     backtrack(cur)
+                    # return to previous level
                     pdict[p] += 1
         backtrack("(")
         return res
