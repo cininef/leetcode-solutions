@@ -13,6 +13,7 @@ class Solution:
             for i in dmap[digits[n]]:
                 s = sol+i
                 backtrack(n+1,s)
+                #no pruning, as it go through layer without stopping condition
 
         backtrack(0,"")  
 
