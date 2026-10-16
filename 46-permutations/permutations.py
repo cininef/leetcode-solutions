@@ -9,9 +9,10 @@ class Solution:
             for i in nums:
                 # legal states
                 if i not in num_set:
-                    cur = sol.copy() + [i]
+                    #cur = sol + [i]
                     num_set.add(i)
-                    backtrack(cur, num_set)
+                    backtrack(sol+[i], num_set)
                     num_set.remove(i)
         backtrack([], set())
         return res
+#！！如果这里用的是list 直接在sol上面append pop
