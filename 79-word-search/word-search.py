@@ -1,36 +1,29 @@
 class Solution:
     def exist(self, board: list[list[str]], word: str) -> bool:
-        def backtrack(p,cx,cy):
-            #already touch the end return
-            if p==len(word):
+        m, n = len(board), len(board[0])
+        DIRS = [(-1, 0), (1, 0), (0, -1), (0, 1)]
+
+        def backtrack(k, r, c):
+            # 1. 停止条件：当前格子已匹配 word[k]，如果是最后一个字符就成功了
+            if k == len(word) - 1:
                 return True
-            if cx<0 or cx>=len(board) or cy<0 or cy>=len(board[0]):
-                return False
-            if board[cx][cy]==word[p]:
-                #小bug 这个grid不允许重复走 从哪个方向来不能回去
-                board[cx][cy] = ''
-                xl=backtrack(p+1,cx-1,cy)
-                xr=backtrack(p+1,cx+1,cy)
-                yu=backtrack(p+1,cx,cy+1)
-                yd=backtrack(p+1,cx,cy-1)
-                board[cx][cy] = word[p]
-                if xl or xr or yu or yd:
+
+            tmp = board[r][c]
+            board[r][c] = '#'                        # choose：标记已访问
+            for dr, dc in DIRS:                      # 所有选择
+                nr, nc = r + dr, c + dc
+                if (0 <= nr < m and 0 <= nc < n      # 合法：在界内
+                        and board[nr][nc] == word[k + 1]):  # 字符匹配（'#' 不会匹配）
+                    if backtrack(k + 1, nr, nc):     # explore
+                        board[r][c] = tmp
+                        return True                  # 短路：找到就停
+            board[r][c] = tmp                        # unchoose
+            return False
+
+        for r in range(m):
+            for c in range(n):
+                if board[r][c] == word[0] and backtrack(0, r, c):
                     return True
-                else:
-                    return False
-            else:
-                return False
-        #define current state
-        rl,cl = len(board),len(board[0])
-        check = False
-        for r in range(rl):
-            for c in range(cl):
-                if board[r][c] == word[0]:
-                    cur = backtrack(0,r,c)
-                    if cur == True:
-                        return True
-                else:
-                    continue
         return False
 
 '''
