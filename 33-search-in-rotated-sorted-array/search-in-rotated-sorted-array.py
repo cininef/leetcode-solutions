@@ -12,10 +12,9 @@ class Solution:
                     l = m+1
             return l
         min_idx = find_min_idx()
-        high = nums[0:min_idx]
-        low = nums[min_idx:]
-        def bs_target(nums):
-            l,h = 0,len(nums)
+        #slicing复制 不符合要求了 不满足logN
+        def bs_target(l,h):
+
             while l<h:
                 m = (l+h)//2
                 if target<=nums[m]:
@@ -24,10 +23,10 @@ class Solution:
                     l = m+1
             return l if l<len(nums) and nums[l]==target else -1
 
-        if target <= low[-1]:
-            return bs_target(low)+min_idx if bs_target(low)!=-1 else -1
+        if target <= nums[-1]:
+            return bs_target(min_idx,len(nums)-1)
         else:
-            return bs_target(high)
+            return bs_target(0,min_idx-1)
 
         
 
