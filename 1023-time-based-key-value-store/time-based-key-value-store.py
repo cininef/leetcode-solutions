@@ -18,18 +18,11 @@ class TimeMap:
         l,h = 0,len(self.d[key])
         while l<h:
             m = (l+h)//2
-            if timestamp <= self.d[key][m][0]:
+            if timestamp < self.d[key][m][0]:
                 h = m
             else:
                 l = m+1
-        if l == len(self.d[key]):
-            return self.d[key][l-1][1]
-        elif self.d[key][l][0]!=timestamp and l!=0:
-            return self.d[key][l-1][1]
-        elif l==0 and self.d[key][l][0]!=timestamp:
-            return ""
-        else:
-            return self.d[key][l][1]
+        return self.d[key][l-1][1] if l>0 else ""
 
 # Your TimeMap object will be instantiated and called as such:
 # obj = TimeMap()
