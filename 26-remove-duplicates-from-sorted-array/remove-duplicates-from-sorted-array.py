@@ -1,8 +1,11 @@
 class Solution:
     def removeDuplicates(self, nums: list[int]) -> int:
-        #m1 brute force
-        #set won't preserve the original sequence in list  
-        uniq_nums = sorted(set(nums))
-        #must use slicing, replace nums = uniq_nums only change a reference/pointer to nums, but every element stays the same
-        nums[:] = uniq_nums
-        return len(uniq_nums)
+        #m2 two pointer 快慢指针
+        slow = 0
+        ns = set()
+        for fast in range(len(nums)):
+            if nums[fast] not in ns:
+                ns.add(nums[fast])
+                nums[slow],nums[fast] = nums[fast],nums[slow]
+                slow += 1
+        return len(ns)
