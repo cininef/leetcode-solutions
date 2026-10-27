@@ -11,6 +11,8 @@ class Solution:
         for i in range(len(nums)-2):
             l,r = i+1,len(nums)-1
             #这里单写i==i-1不够对比
+            #要限制 如果只有3个元素 i只会查找自己作为第一个元素是否work
+            #这时候不应该收到numscheck是否相等的限制 就应该全部加试试看
             if i>0  and nums[i] == nums[i-1]:
                 continue
             #1.如何去重i：i一重复所有都没用 ilr必须保证有两个不重复 这样第三个绝对不重复
