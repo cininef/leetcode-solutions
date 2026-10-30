@@ -6,14 +6,14 @@ class Solution:
             #case1: l or r is not alphanumeric -> skip l+=1/r+=1
             #case2:l is alphanumeric and r is alphanumeric and both lowercase equal: all skip +1
             #case3:l is alphanumeric and r is alphanumeric and not equal: return false
-            if s[l].isalnum() and s[r].isalnum() and s[l].lower()!=s[r].lower():
-                return False
-            elif s[l].isalnum() and s[r].isalnum() and s[l].lower()==s[r].lower():
+            while l<r and not s[l].isalnum():
                 l += 1
+            while l<r and not s[r].isalnum():
                 r -= 1
-            elif not s[l].isalnum():
+            if s[l].lower() != s[r].lower():
+                return False
+            else:
                 l += 1
-            elif not s[r].isalnum():
                 r -= 1
         return True 
 
