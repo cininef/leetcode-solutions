@@ -1,4 +1,19 @@
 class Solution:
     def isPalindrome(self, s: str) -> bool:
-        cleaned = "".join(filter(str.isalnum,s)).lower()
-        return cleaned==cleaned[::-1]
+        #m2: two pointer 对撞
+        l,r = 0, len(s)-1
+        while l<r:
+            #case1: l or r is not alphanumeric -> skip l+=1/r+=1
+            #case2:l is alphanumeric and r is alphanumeric and both lowercase equal: all skip +1
+            #case3:l is alphanumeric and r is alphanumeric and not equal: return false
+            if s[l].isalnum() and s[r].isalnum() and s[l].lower()!=s[r].lower():
+                return False
+            elif s[l].isalnum() and s[r].isalnum() and s[l].lower()==s[r].lower():
+                l += 1
+                r -= 1
+            elif not s[l].isalnum():
+                l += 1
+            elif not s[r].isalnum():
+                r -= 1
+        return True 
+
