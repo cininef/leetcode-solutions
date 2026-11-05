@@ -1,5 +1,12 @@
 class Solution:
+
     def minWindow(self, s: str, t: str) -> str:
+        def valid():
+            v = True
+            for j in t_state:
+                if state.get(j,0) < t_state[j]:
+                    v = False
+            return v
         l = 0
         state = {}
         t_state = {}
@@ -10,12 +17,6 @@ class Solution:
             #step1: always add current r into state
             state[s[r]] = state.get(s[r],0) + 1
             #step2: move l to make [l,r]valid again
-            def valid():
-                v = True
-                for j in t_state:
-                    if state.get(j,0) < t_state[j]:
-                        v = False
-                return v
             #valid means for every element in t, state has >=1 storage
             while valid():
                 #step3: return value
