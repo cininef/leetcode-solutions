@@ -1,34 +1,39 @@
 class Solution:
-
     def minWindow(self, s: str, t: str) -> str:
         def valid():
-            v = True
             for j in t_state:
-                if state.get(j,0) < t_state[j]:
-                    v = False
-            return v
+                if state.get(j, 0) < t_state[j]:
+                    return False
+            return True
+
         l = 0
         state = {}
         t_state = {}
-        res = ""
+        start = 0                # 最短窗口的起点
+        min_len = float('inf')   # 最短窗口的长度，求最短所以初始为无穷大
         for i in t:
-            t_state[i] = t_state.get(i,0) + 1
+            t_state[i] = t_state.get(i, 0) + 1
+
         for r in range(len(s)):
-            #step1: always add current r into state
-            state[s[r]] = state.get(s[r],0) + 1
-            #step2: move l to make [l,r]valid again
-            #valid means for every element in t, state has >=1 storage
+            # ① r 进来：一定加，不挑
+            state[s[r]] = state.get(s[r], 0) + 1
+            # ② 窗口合法时，先记答案，再移除 l，试试更短
+            # 合法 = 对 t 里的每个字母，state 的次数 >= t_state 的次数
             while valid():
-                #step3: return value
-                #很重要 要找的是minimum window 所以得超过历史最小才print
-                if len(res)>r-l+1 or res=='' :
-                    res = s[l:r+1]
+                # ③ 比历史最短还短才更新，只记起点和长度，不切片
+                if r - l + 1 < min_len:
+                    start = l
+                    min_len = r - l + 1
                 state[s[l]] -= 1
-                l += 1        
-        return res
+                l += 1
+            # 出了 while：窗口已经不合法，不记，等 r 继续扩
+
+        # 最后才切一次；min_len 没变过说明没找到
+        return "" if min_len == float('inf') else s[start:start + min_len]
+
 '''
 理解
-1.s这个[l,r] window >= t的排列组合 s可以有多余元素 但一定要包括t
-eg. s_state = {"a":1,"n":2,"b":1} t_state = {"a":1,"b":1}
-那么关于t的这些一定要完全一致
+1. [l,r] 要覆盖 t：s 可以有多余元素，但 t 里的每个字母都要够数
+eg. state = {"a":1,"n":2,"b":1}, t_state = {"a":1,"b":1} ✅ 合法
+    对 t 里的每个字母，窗口的次数 >= t 的次数
 '''
