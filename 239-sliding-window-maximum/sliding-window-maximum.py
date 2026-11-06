@@ -18,6 +18,7 @@ class Solution:
             #第二条：为了fixed windowsize 每次都在[l,r]fixed window size
             #这时候 说明新加入的r 让window超了 在要移动l一位
             #这里 state里面是按照顺序储存 l，r 现在应该到l+1了 但也只有l太大才会影响这个
+            #state[0]就是index最小的东西 如果在上一个把l正好踢走了 也不用在pop了
             if r-l+1>k:
                 if state[0] == l:
                     state.popleft()
