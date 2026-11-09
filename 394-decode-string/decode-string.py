@@ -30,7 +30,8 @@ class Solution:
                 stack.append(s[i])
         return "".join(stack)
 
-'''
+'''S2:计算 / 嵌套（150, 394）
+🔧 要换的格子：什么是数据、什么是操作。394 里，[ 时把当前状态压栈，] 时弹出来拼接。
 stack = []                         # 还没被用掉的数字
 for x in tokens:
     if x not in "+-*/":            # 🔧 数据：要等运算符
