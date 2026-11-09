@@ -6,24 +6,24 @@ class Solution:
         #2）[]遇到[ stack进去 但是]就得立马pop出来然后inplace push进去
         #3）abc alphabeta
         #核心就是 ] 立马把之前2[a]这种pattern计算好 纯alpha之后再push进去
+        #step1 always loop the whole str/list first
         for i in range(len(s)):
+            #step2:跟之前一样 找到出发pop的条件
             if s[i] == ']':
                 a = stack.pop()
-                cur = ""
                 #第一个环节 把[]内部的完全提取出来
-                while cur.isalpha() or cur == "":
-                    a = cur + a
-                    cur = stack.pop()
+                while stack and stack[-1].isalpha():
+                    a = stack.pop() + a
                 #while之后 说明cur已经是[了
-                #再多pop一次
+                #再多pop一次 把[ pop出来
+                stack.pop()
                 num = stack.pop()
-        
                 #第二个环节 把[]前的数字完全提取出来
                 while stack and stack[-1].isdigit():
-                    cur = stack.pop()
-                    num = cur + num
+                    num = stack.pop() + num
                 num = int(num)
                 res = num * a
+                #step3:所有处理结束之后add back
                 stack.append(res)
             else:
                 stack.append(s[i])
