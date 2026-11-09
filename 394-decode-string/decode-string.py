@@ -9,6 +9,7 @@ class Solution:
         #step1 always loop the whole str/list first
         for i in range(len(s)):
             #step2:跟之前一样 找到出发pop的条件
+            #trick：对于这种复杂的pop条件 就应该在pop之前 检查是否能pop=stack是否empty+pop元素是否是想要的不要多pop
             if s[i] == ']':
                 a = stack.pop()
                 #第一个环节 把[]内部的完全提取出来
