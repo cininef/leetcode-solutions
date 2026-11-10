@@ -20,8 +20,8 @@ class Solution:
             #我们现在想做的是 把里面之前的pop出来 保留pos最大+最慢的不断刷新
             #这里就有问题 单靠这个条件 因为旧元素有两种情况 要不跟现在在一个fleet 要不不在一个fleet 到底维护保持哪一个？
             #找pos小的 合并车队之后 会错过
-            if not stack or (time>stack[-1][1]):
-                stack.append((cars[i][0],time))
+            if not stack or (time>stack[-1]):
+                stack.append(time)
             #else说明 就是应该stack进去 因为merge不了说明追不上pos前面的
             else:
                 continue
