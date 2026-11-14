@@ -33,7 +33,6 @@ class Solution:
             #！！！重要trick 前面的while不停在更新stack所以这时候不能用原条件写if判断stack怎么append
             #j是最后一个 > h的元素
             #consider 没进while=stack一开始就是空的/h>stack顶上 就不能用j了
-
             #剩下只要进来了while 有更新stack的 用j
             stack.append((i,j[1]+i-j[0]))
         return area
