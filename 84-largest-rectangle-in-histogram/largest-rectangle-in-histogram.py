@@ -26,14 +26,14 @@ class Solution:
                 jarea = heights[j[0]] * (j[1]+i-j[0])
                 area = max(area,jarea)
             #step 2：如何处理当前的 append进去 stack[index,左边长度怎么写]
+            #！！！重要trick 前面的while不停在更新stack所以这时候不能用原条件写if判断stack怎么append
             #j是最后一个 > h的元素
-            #consider 1.stack is empty
-            #2.stack not empty, not enter while, j not exist
+            #consider 没进while=stack一开始就是空的/h>stack顶上 就不能用j了
             if not j:
                 stack.append((i,0))
+            #剩下只要进来了while 有更新stack的 用j
             else:
                 stack.append((i,j[1]+i-j[0]))
-
         return area
 
 
