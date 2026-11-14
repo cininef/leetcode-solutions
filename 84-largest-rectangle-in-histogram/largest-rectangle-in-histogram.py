@@ -18,7 +18,11 @@ class Solution:
         for i in range(len(heights)):
             h = heights[i]
             j = None
+            if not stack or h >= heights[stack[-1][0]]:
+                stack.append((i,0))
+                continue
             #step 1:决定pop规则=当前元素是小 一直把前面的都pop出来 说明前面的都到自己右边极限了
+            #这里不把旧元素弄出去 i无法知道自己左边长度
             while stack and h < heights[stack[-1][0]]:
                 j = stack.pop()
                 #j = [index,左边长度]
@@ -29,11 +33,9 @@ class Solution:
             #！！！重要trick 前面的while不停在更新stack所以这时候不能用原条件写if判断stack怎么append
             #j是最后一个 > h的元素
             #consider 没进while=stack一开始就是空的/h>stack顶上 就不能用j了
-            if not j:
-                stack.append((i,0))
+
             #剩下只要进来了while 有更新stack的 用j
-            else:
-                stack.append((i,j[1]+i-j[0]))
+            stack.append((i,j[1]+i-j[0]))
         return area
 
 
