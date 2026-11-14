@@ -2,25 +2,38 @@ class Solution:
     def largestRectangleArea(self, heights: list[int]) -> int:
         #记住 一旦要调用stack[-1]一定记得确保not stack/考虑stack为空
         #跟contain water two pointer乍一看很像
-        #判断 unsorted：不用binarysearch
+        #binarysearch：判断 unsorted 所以不用
+        #twopointers:不是找左右区间 而是重点在中间的元素 区间min重要
+        #l,r;stack共同点 就是每次新加入的元素r/stack append 都会被处理 根据这个再对之前元素进行处理
         area = 0
         stack = []
         #思考 loop over all elements是必须的 怎么loop一边就知道所有可能的area长度
         #如果想让自己=h，那么左右延伸都要是最小的 遇到比自己小的就失效了
         #存一个元素 肯定不行 就是2156这样pop append
-        #stack = [index，左边长度]
-        #这样stack里面存的永远是当前见到的最小 因为但凡比这个大的 遇到这个小的都被弹出去了
+        #stack = [index，左边长度] 弹出的时候自动知道右边的长度
+        #这样stack里面存的永远是当前见到的小 然后逐个把前面更大元素弹出去
+        #width = 左边最大 + 自己 + 弹出时右边大小
+        #用0把最后stack所有东西顶出去
+        heights.append(0)
         for i in range(len(heights)):
             h = heights[i]
-            w = 1                                              # ➕ 加：默认左边宽度只有自己
-            while stack and h<heights[stack[-1][0]]:
+            j = None
+            #step 1:决定pop规则=当前元素是小 一直把前面的都pop出来 说明前面的都到自己右边极限了
+            while stack and h < heights[stack[-1][0]]:
                 j = stack.pop()
-                jarea = heights[j[0]] * (j[1]+i-j[0]-1)        # ✏️ 改：heights[j][0] → heights[j[0]]；i-j → i-j[0]-1
+                #j = [index,左边长度]
+                #jarea = 自己的heights*width
+                jarea = heights[j[0]] * (j[1]+i-j[0])
                 area = max(area,jarea)
-                w = i-j[0]+j[1]                                # ➕ 加：我能往左盖过 j，接上 j 的左边宽度
-            stack.append((i,w))                                # ✏️ 改：i-j[0]+1 → w
-        for j in stack:                                        # ➕ 加：剩下的柱子能扩到最右边
-            area = max(area, heights[j[0]] * (j[1]+len(heights)-j[0]-1))
+            #step 2：如何处理当前的 append进去 stack[index,左边长度怎么写]
+            #j是最后一个 > h的元素
+            #consider 1.stack is empty
+            #2.stack not empty, not enter while, j not exist
+            if not j:
+                stack.append((i,0))
+            else:
+                stack.append((i,j[1]+i-j[0]))
+
         return area
 
 
