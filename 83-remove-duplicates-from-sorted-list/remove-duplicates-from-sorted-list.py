@@ -11,7 +11,7 @@ class Solution:
         while cur:
             #delete one node: only need to change its prev.next
             if cur.val == prev.val:
-                #delete cur
+                #delete cur，if delete prev need too many effort
                 prev.next = cur.next
                 
             else:
