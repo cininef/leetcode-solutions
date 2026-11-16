@@ -5,7 +5,9 @@
 #         self.next = next
 class Solution:
     def deleteDuplicates(self, head: ListNode | None) -> ListNode | None:
+        #if using dummy, dummy must be outside the return dummy.next,so not same as head.val
         dummy = ListNode(-101,head)
+        #记住 任何initialize方法 prev cur都很有可能都是none
         prev,cur = dummy,head
 
         while cur:
