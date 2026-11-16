@@ -11,10 +11,12 @@ class Solution:
         dummy = ListNode(0,head)
         prev,cur = dummy,head
         while cur:
+            #是否==val只是影响prev的指向 整体cur最后还是要平移
             if cur.val == val:
                 prev.next = cur.next
             else:
-                prev = cur 
+                prev = cur
+            #整体cur最后还是要平移
             cur = cur.next
         return dummy.next
 #consider initially prev is None, there's no prev
